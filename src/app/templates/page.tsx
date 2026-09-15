@@ -1,0 +1,64 @@
+import Link from "next/link";
+
+const templates = [
+  { name: "Cinematic Intro", category: "Brand", accent: "from-orange-500 via-rose-500 to-fuchsia-500" },
+  { name: "Travel Reel", category: "Social", accent: "from-cyan-500 via-blue-500 to-indigo-500" },
+  { name: "Fashion Loop", category: "Editorial", accent: "from-pink-500 via-rose-500 to-red-500" },
+  { name: "Product Reveal", category: "Commercial", accent: "from-violet-500 via-purple-500 to-indigo-500" },
+  { name: "Photographer Story", category: "Portfolio", accent: "from-emerald-500 via-teal-500 to-cyan-500" },
+  { name: "Brand Burst", category: "Promo", accent: "from-yellow-500 via-amber-500 to-orange-500" },
+];
+
+export default function TemplatesPage() {
+  return (
+    <main className="min-h-screen bg-[#050816] text-slate-50">
+      <div className="mx-auto max-w-[1500px] px-4 py-4 md:px-6 lg:px-8">
+        <header className="rounded-[26px] border border-white/10 bg-slate-950/75 px-5 py-4 backdrop-blur-xl">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Link href="/" className="grid h-10 w-10 place-items-center rounded-full bg-linear-to-br from-orange-400 via-rose-500 to-fuchsia-600 text-lg font-black text-white shadow-[0_10px_25px_rgba(244,63,94,0.45)]">
+                M
+              </Link>
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">templates</p>
+                <h1 className="text-base font-semibold text-white">Ready-made motion kits</h1>
+              </div>
+            </div>
+
+            <nav className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
+              <Link href="/studio" className="hover:text-white">Studio</Link>
+              <Link href="/library" className="hover:text-white">Library</Link>
+              <Link href="/templates" className="text-white">Templates</Link>
+              <Link href="/export" className="hover:text-white">Export</Link>
+            </nav>
+          </div>
+        </header>
+
+        <section className="mt-6 rounded-[28px] border border-white/10 bg-slate-950/60 p-6">
+          <div className="mb-6 flex items-center justify-between">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.24em] text-orange-200">Featured presets</p>
+              <h2 className="mt-2 text-3xl font-semibold tracking-[-0.06em] text-white">Templates for professional use</h2>
+            </div>
+            <button type="button" className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[11px] uppercase tracking-[0.16em] text-slate-200">Browse all</button>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {templates.map((template) => (
+              <div key={template.name} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+                <div className={`mb-4 h-36 rounded-[18px] bg-linear-to-br ${template.accent}`} />
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xl font-semibold text-white">{template.name}</p>
+                    <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-slate-400">{template.category}</p>
+                  </div>
+                  <button type="button" className="rounded-full bg-white px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-950">Use</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}

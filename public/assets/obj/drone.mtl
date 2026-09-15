@@ -1,0 +1,7 @@
+# EASY material
+newmtl mat_drone
+Ka 0.165 0.184 0.228
+Kd 0.165 0.184 0.228
+Ks 0.9 0.9 0.9
+Ns 90
+illum 2

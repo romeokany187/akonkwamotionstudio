@@ -1,0 +1,7 @@
+# EASY material
+newmtl mat_monitor
+Ka 0.122 0.141 0.188
+Kd 0.122 0.141 0.188
+Ks 0.9 0.9 0.9
+Ns 90
+illum 2

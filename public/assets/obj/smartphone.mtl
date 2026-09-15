@@ -1,0 +1,7 @@
+# EASY material
+newmtl mat_smartphone
+Ka 0.290 0.318 0.392
+Kd 0.290 0.318 0.392
+Ks 0.9 0.9 0.9
+Ns 90
+illum 2

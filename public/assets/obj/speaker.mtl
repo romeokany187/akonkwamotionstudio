@@ -1,0 +1,7 @@
+# EASY material
+newmtl mat_speaker
+Ka 0.898 0.282 0.302
+Kd 0.898 0.282 0.302
+Ks 0.9 0.9 0.9
+Ns 90
+illum 2

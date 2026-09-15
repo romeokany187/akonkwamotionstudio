@@ -1,0 +1,7 @@
+# EASY material
+newmtl mat_laptop
+Ka 0.604 0.627 0.651
+Kd 0.604 0.627 0.651
+Ks 0.9 0.9 0.9
+Ns 90
+illum 2

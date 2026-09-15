@@ -1,0 +1,7 @@
+# EASY material
+newmtl mat_chair
+Ka 0.957 0.761 0.051
+Kd 0.957 0.761 0.051
+Ks 0.9 0.9 0.9
+Ns 90
+illum 2
