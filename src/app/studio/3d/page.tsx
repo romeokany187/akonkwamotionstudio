@@ -12,6 +12,58 @@ const compositeLayers = [
   { id: "custom_img", name: "Photo Importée", type: "Image", src: "/assets/gen/car.png" },
 ];
 
+function isolateObject(image: HTMLImageElement) {
+  const canvas = document.createElement("canvas");
+  canvas.width = image.naturalWidth;
+  canvas.height = image.naturalHeight;
+  const context = canvas.getContext("2d");
+  if (!context) return canvas;
+
+  context.drawImage(image, 0, 0);
+  const frame = context.getImageData(0, 0, canvas.width, canvas.height);
+  const pixels = frame.data;
+  const visited = new Uint8Array(canvas.width * canvas.height);
+  const queue: number[] = [];
+  const sample = (x: number, y: number) => {
+    const index = (y * canvas.width + x) * 4;
+    return [pixels[index], pixels[index + 1], pixels[index + 2]];
+  };
+  const edgeColor = sample(0, 0);
+  const matchesBackground = (x: number, y: number) => {
+    const color = sample(x, y);
+    const distance = Math.abs(color[0] - edgeColor[0]) + Math.abs(color[1] - edgeColor[1]) + Math.abs(color[2] - edgeColor[2]);
+    return distance < 95;
+  };
+  const enqueue = (x: number, y: number) => {
+    if (x < 0 || y < 0 || x >= canvas.width || y >= canvas.height) return;
+    const position = y * canvas.width + x;
+    if (visited[position] || !matchesBackground(x, y)) return;
+    visited[position] = 1;
+    queue.push(position);
+  };
+
+  for (let x = 0; x < canvas.width; x += 1) {
+    enqueue(x, 0);
+    enqueue(x, canvas.height - 1);
+  }
+  for (let y = 1; y < canvas.height - 1; y += 1) {
+    enqueue(0, y);
+    enqueue(canvas.width - 1, y);
+  }
+  for (let cursor = 0; cursor < queue.length; cursor += 1) {
+    const position = queue[cursor];
+    const x = position % canvas.width;
+    const y = Math.floor(position / canvas.width);
+    pixels[position * 4 + 3] = 0;
+    enqueue(x - 1, y);
+    enqueue(x + 1, y);
+    enqueue(x, y - 1);
+    enqueue(x, y + 1);
+  }
+  context.putImageData(frame, 0, 0);
+  return canvas;
+}
+
 export default function Studio3DPage() {
   const [layers, setLayers] = useState(compositeLayers);
   const [selectedLayerIndex, setSelectedLayerIndex] = useState(0);
@@ -39,6 +91,7 @@ export default function Studio3DPage() {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const preloadedImgRef = useRef<HTMLImageElement | null>(null);
+  const isolatedCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const animFrameRef = useRef<number | null>(null);
   const toggleEffect = (id: string) => setActiveEffects((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
 
@@ -48,6 +101,7 @@ export default function Studio3DPage() {
     img.src = layers[selectedLayerIndex]?.src || layers[0].src;
     img.onload = () => {
       preloadedImgRef.current = img;
+      isolatedCanvasRef.current = isolateObject(img);
     };
   }, [layers, selectedLayerIndex]);
 
@@ -119,9 +173,9 @@ export default function Studio3DPage() {
 
       ctx.scale(scaleX * 1.1, scaleY * 1.1);
 
-      const img = preloadedImgRef.current;
-      if (img && img.complete) {
-        ctx.drawImage(img, -200, -150, 400, 300);
+      const objectLayer = isolatedCanvasRef.current || preloadedImgRef.current;
+      if (objectLayer && ("complete" in objectLayer ? objectLayer.complete : true)) {
+        ctx.drawImage(objectLayer, -200, -150, 400, 300);
       }
       ctx.restore();
 
@@ -231,13 +285,14 @@ export default function Studio3DPage() {
 
           {/* Right Scrollable Inspector Panel */}
           <aside className="h-[calc(100vh-7rem)] overflow-y-auto rounded-[26px] border border-white/10 bg-slate-950/70 p-4 space-y-4">
-            <p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Réglages 3D & Composite</p>
+            <p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Réglages objet 3D & Composite</p>
 
             {/* Media & Layer Source Selection */}
             <div className="rounded-[20px] border border-white/10 bg-white/5 p-3.5 space-y-3">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-indigo-300">Media 3D & Calque Active</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-indigo-300">Objet 3D & Calque actif</p>
+              <p className="text-[11px] leading-relaxed text-slate-400">Le fond de l&apos;image est retiré pour animer l&apos;objet seul. La photo complète ne devient jamais un plan 3D.</p>
               <label className="block text-center cursor-pointer rounded-xl border border-dashed border-indigo-400/50 bg-indigo-500/10 p-2.5 text-xs text-indigo-200 hover:bg-indigo-500/20">
-                + Importer Image / Vidéo / Forme
+                + Importer une image à détourer
                 <input type="file" className="hidden" onChange={handleUploadCustomMedia} />
               </label>
 
