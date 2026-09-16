@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import StudioTimeline from "@/components/StudioTimeline";
 
 const defaultSlides = [
   { name: "Slide 1 - Urban Drone", src: "/assets/gen/drone.png", title: "URBAN MOTION", subtitle: "Cinematic Parallax Slideshow" },
@@ -440,6 +441,7 @@ export default function MotionArraySlideshowStudio() {
                 />
               </div>
             </div>
+            <StudioTimeline accent="#fb923c" tracks={[{ name: "Slide active", color: "#fb923c", start: 0, width: 68 }, { name: "Transition", color: "#a78bfa", start: 62, width: 18 }]} />
           </aside>
 
           {/* Center Canvas Preview */}

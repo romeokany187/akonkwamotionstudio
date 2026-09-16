@@ -5,6 +5,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import StudioLayoutHeader from "@/components/StudioLayoutHeader";
 import StudioLeftSidebar from "@/components/StudioLeftSidebar";
 import CreativeFxPanel from "@/components/CreativeFxPanel";
+import StudioTimeline from "@/components/StudioTimeline";
 
 const defaultImages = [
   { name: "Drone", src: "/assets/gen/drone.png", kind: "Product" },
@@ -568,6 +569,7 @@ export default function ImageStudioPage() {
                 </div>
               </div>
               <CreativeFxPanel activeEffects={activeEffects} intensity={effectIntensity} onToggle={toggleEffect} onIntensityChange={setEffectIntensity} accentClass="accent-orange-400" />
+              <StudioTimeline accent="#fb923c" tracks={[{ name: "Image", color: "#fb923c", start: 6, width: 78 }, { name: "Mouvement", color: "#38bdf8", start: 12, width: 55 }]} />
             </div>
           </aside>
         </div>

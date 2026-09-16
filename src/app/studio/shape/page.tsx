@@ -5,12 +5,17 @@ import { useEffect, useRef, useState } from "react";
 import StudioLayoutHeader from "@/components/StudioLayoutHeader";
 import StudioLeftSidebar from "@/components/StudioLeftSidebar";
 import CreativeFxPanel from "@/components/CreativeFxPanel";
+import StudioTimeline from "@/components/StudioTimeline";
 
 const shapes = [
-  { name: "Orb Glow", gradient: ["#fb923c", "#f97316", "#ec4899"] },
-  { name: "Prism Crystal", gradient: ["#93c5fd", "#3b82f6", "#8b5cf6"] },
-  { name: "Bloom Emerald", gradient: ["#a7f3d0", "#22c55e", "#14b8a6"] },
-  { name: "Pulse Cyber", gradient: ["#f9a8d4", "#ec4899", "#8b5cf6"] },
+  { name: "Cercle", kind: "circle", gradient: ["#fb923c", "#f97316", "#ec4899"] },
+  { name: "Carré", kind: "square", gradient: ["#93c5fd", "#3b82f6", "#8b5cf6"] },
+  { name: "Triangle", kind: "triangle", gradient: ["#a7f3d0", "#22c55e", "#14b8a6"] },
+  { name: "Étoile", kind: "star", gradient: ["#f9a8d4", "#ec4899", "#8b5cf6"] },
+  { name: "Losange", kind: "diamond", gradient: ["#fcd34d", "#f97316", "#ef4444"] },
+  { name: "Cœur", kind: "heart", gradient: ["#fda4af", "#e11d48", "#9f1239"] },
+  { name: "Anneau", kind: "ring", gradient: ["#67e8f9", "#06b6d4", "#2563eb"] },
+  { name: "Hexagone", kind: "hexagon", gradient: ["#c4b5fd", "#7c3aed", "#4338ca"] },
 ];
 
 export default function StudioShapePage() {
@@ -67,10 +72,47 @@ export default function StudioShapePage() {
         ctx.shadowBlur = glowPower;
       }
 
-      // Draw Geometric Shape Card
+      // Draw the selected vector geometry.
       ctx.beginPath();
-      ctx.roundRect(-100, -100, 200, 200, 36);
+      if (selectedShape.kind === "circle") {
+        ctx.arc(0, 0, 105, 0, Math.PI * 2);
+      } else if (selectedShape.kind === "square") {
+        ctx.roundRect(-100, -100, 200, 200, 18);
+      } else if (selectedShape.kind === "triangle") {
+        ctx.moveTo(0, -115);
+        ctx.lineTo(112, 85);
+        ctx.lineTo(-112, 85);
+        ctx.closePath();
+      } else if (selectedShape.kind === "diamond") {
+        ctx.moveTo(0, -120);
+        ctx.lineTo(120, 0);
+        ctx.lineTo(0, 120);
+        ctx.lineTo(-120, 0);
+        ctx.closePath();
+      } else if (selectedShape.kind === "heart") {
+        ctx.moveTo(0, 105);
+        ctx.bezierCurveTo(-145, 15, -105, -105, 0, -35);
+        ctx.bezierCurveTo(105, -105, 145, 15, 0, 105);
+        ctx.closePath();
+      } else if (selectedShape.kind === "ring") {
+        ctx.arc(0, 0, 110, 0, Math.PI * 2);
+        ctx.arc(0, 0, 62, 0, Math.PI * 2, true);
+      } else {
+        const sides = selectedShape.kind === "star" ? 10 : 6;
+        for (let point = 0; point < sides; point += 1) {
+          const radius = selectedShape.kind === "star" && point % 2 === 0 ? 115 : 52;
+          const angle = point * (Math.PI * 2 / sides) - Math.PI / 2;
+          const x = Math.cos(angle) * radius;
+          const y = Math.sin(angle) * radius;
+          if (point === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+      }
       ctx.fill();
+      if (selectedShape.kind === "ring") {
+        ctx.fill("evenodd");
+      }
 
       ctx.restore();
 
@@ -161,7 +203,7 @@ export default function StudioShapePage() {
             <p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Réglages Formes & Vector</p>
 
             <div className="rounded-[20px] border border-white/10 bg-white/5 p-3.5 space-y-2">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-amber-300">Style Formes Géométriques</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-amber-300">Bibliothèque de formes</p>
               <div className="grid grid-cols-2 gap-2">
                 {shapes.map((shape) => (
                   <button
@@ -220,6 +262,7 @@ export default function StudioShapePage() {
               </div>
             </div>
             <CreativeFxPanel activeEffects={activeEffects} intensity={effectIntensity} onToggle={toggleEffect} onIntensityChange={setEffectIntensity} accentClass="accent-amber-400" />
+            <StudioTimeline accent="#fbbf24" tracks={[{ name: "Forme", color: "#fbbf24", start: 12, width: 58 }, { name: "Aura", color: "#fb7185", start: 20, width: 42 }]} />
           </aside>
         </div>
       </div>

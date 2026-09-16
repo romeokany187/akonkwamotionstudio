@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import StudioLayoutHeader from "@/components/StudioLayoutHeader";
 import StudioLeftSidebar from "@/components/StudioLeftSidebar";
+import StudioTimeline from "@/components/StudioTimeline";
 
 const emojis = ["✨", "🔥", "🚀", "💡", "🎯", "🌙", "⚡", "🎨"];
 
@@ -181,6 +182,7 @@ export default function StudioEmojiPage() {
                 <input type="checkbox" checked={enableBounce} onChange={(e) => setEnableBounce(e.target.checked)} className="accent-emerald-400" />
               </div>
             </div>
+            <StudioTimeline accent="#34d399" tracks={[{ name: "Emoji", color: "#34d399", start: 10, width: 52 }, { name: "Glow", color: "#fb7185", start: 8, width: 65 }]} />
           </aside>
         </div>
       </div>

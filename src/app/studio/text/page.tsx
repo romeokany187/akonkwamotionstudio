@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import StudioLayoutHeader from "@/components/StudioLayoutHeader";
 import StudioLeftSidebar from "@/components/StudioLeftSidebar";
 import CreativeFxPanel from "@/components/CreativeFxPanel";
+import StudioTimeline from "@/components/StudioTimeline";
 
 const animationCategories = ["Animations", "Effets", "Mouvements", "In & Out", "Distorsion", "3D & Caméra"] as const;
 type AnimationCategory = (typeof animationCategories)[number];
@@ -304,6 +305,7 @@ export default function StudioTextPage() {
               </div>
             </div>
             <CreativeFxPanel activeEffects={activeEffects} intensity={effectIntensity} onToggle={toggleEffect} onIntensityChange={setEffectIntensity} accentClass="accent-pink-400" />
+            <StudioTimeline accent="#ec4899" tracks={[{ name: "Texte principal", color: "#ec4899", start: 8, width: 55 }, { name: "Effets", color: "#22d3ee", start: 18, width: 38 }]} />
           </aside>
         </div>
       </div>

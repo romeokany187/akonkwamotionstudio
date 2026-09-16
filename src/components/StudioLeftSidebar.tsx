@@ -3,13 +3,21 @@
 import Link from "next/link";
 
 const studioSources = [
+  { id: "text", name: "Text Animations", path: "/studio/text" },
+  { id: "shape", name: "Shapes", path: "/studio/shape" },
+  { id: "presets", name: "Presets", path: "/templates" },
+  { id: "easing", name: "Easing", path: "/studio/text" },
+  { id: "styles", name: "Styles", path: "/studio/shape" },
+  { id: "timing", name: "Speed & Timing", path: "/studio/video" },
   { id: "image", name: "Image", path: "/studio/image" },
   { id: "video", name: "Video", path: "/studio/video" },
-  { id: "slideshow", name: "Slideshow", path: "/studio/slideshow" },
-  { id: "3d", name: "3D Composite", path: "/studio/3d" },
-  { id: "text", name: "Text", path: "/studio/text" },
-  { id: "shape", name: "Shape", path: "/studio/shape" },
+  { id: "3d", name: "Caméra 3D", path: "/studio/3d" },
   { id: "emoji", name: "Emoji", path: "/studio/emoji" },
+  { id: "slideshow", name: "Slideshow", path: "/studio/slideshow" },
+  { id: "sound", name: "Sound FX", path: "/library" },
+  { id: "favorites", name: "Favoris", path: "/library" },
+  { id: "history", name: "Historique", path: "/library" },
+  { id: "settings", name: "Réglages", path: "/library" },
 ];
 
 export default function StudioLeftSidebar({ activeSource }: { activeSource: string }) {

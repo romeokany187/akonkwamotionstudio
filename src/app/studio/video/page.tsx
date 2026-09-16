@@ -3,6 +3,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import StudioLayoutHeader from "@/components/StudioLayoutHeader";
 import StudioLeftSidebar from "@/components/StudioLeftSidebar";
+import StudioTimeline from "@/components/StudioTimeline";
 
 const demoVideo = "/assets/gen/demo.mp4";
 const colorLooks = [
@@ -330,6 +331,7 @@ export default function StudioVideoPage() {
           </section>
 
           <aside className="h-[calc(100vh-7rem)] overflow-y-auto rounded-[26px] border border-white/10 bg-slate-950/70 p-4 space-y-4">
+            <StudioTimeline accent="#22d3ee" tracks={[{ name: "Vidéo", color: "#22d3ee", start: 0, width: 86 }, { name: "Audio", color: "#34d399", start: 0, width: 86 }]} />
             <div className="flex items-center justify-between"><p className="text-[10px] uppercase tracking-[0.24em] text-slate-400">Video inspector</p><label className="cursor-pointer rounded-full bg-cyan-400 px-3 py-1 text-[10px] font-bold text-slate-950">+ Import<input type="file" accept="video/*" className="hidden" onChange={handleUpload} /></label></div>
             <div className="rounded-[20px] border border-white/10 bg-white/5 p-3.5 space-y-3"><p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300">Source & timing</p><div><div className="flex justify-between text-xs text-slate-300"><span>Playback speed</span><span>{speed}x</span></div><input type="range" min={0.25} max={2} step={0.05} value={speed} onChange={(event) => setSpeed(Number(event.target.value))} className="w-full accent-cyan-400" /></div><div><div className="flex justify-between text-xs text-slate-300"><span>Trim in</span><span>{trimStart}%</span></div><input type="range" min={0} max={trimEnd - 1} value={trimStart} onChange={(event) => setTrimStart(Number(event.target.value))} className="w-full accent-cyan-400" /></div><div><div className="flex justify-between text-xs text-slate-300"><span>Trim out</span><span>{trimEnd}%</span></div><input type="range" min={trimStart + 1} max={100} value={trimEnd} onChange={(event) => setTrimEnd(Number(event.target.value))} className="w-full accent-cyan-400" /></div></div>
             <div className="rounded-[20px] border border-white/10 bg-white/5 p-3.5 space-y-3"><p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300">Camera & transition</p><div><div className="flex justify-between text-xs text-slate-300"><span>Ken Burns zoom</span><span>{zoom.toFixed(2)}x</span></div><input type="range" min={1} max={1.35} step={0.01} value={zoom} onChange={(event) => setZoom(Number(event.target.value))} className="w-full accent-cyan-400" /></div><div><div className="flex justify-between text-xs text-slate-300"><span>Motion blur</span><span>{blur}px</span></div><input type="range" min={0} max={14} value={blur} onChange={(event) => setBlur(Number(event.target.value))} className="w-full accent-cyan-400" /></div></div>
